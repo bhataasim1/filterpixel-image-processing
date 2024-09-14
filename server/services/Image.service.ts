@@ -1,13 +1,7 @@
 import sharp from "sharp";
 import path from "path";
 import fs from "fs/promises";
-
-type operations = {
-  brightness?: number;
-  saturation?: number;
-  rotate?: number;
-  crop?: { left: number; top: number; width: number; height: number };
-};
+import { operations } from "../types/types";
 
 export class ImageService {
   private readonly UPLOAD_DIR = path.join(__dirname, "..", "uploads");
