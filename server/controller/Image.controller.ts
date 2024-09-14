@@ -31,7 +31,12 @@ export class ImageController extends BaseController {
       const { filePath, operations }: ProcessImageInputType = req.body;
       const result = await this.imageService.processImage(filePath, operations);
       // console.log(result);
-      return this._sendResponse(res, "Image Processed Successfully", 200, result);
+      return this._sendResponse(
+        res,
+        "Image Processed Successfully",
+        200,
+        result
+      );
     } catch (error) {
       next(error);
     }
@@ -39,9 +44,8 @@ export class ImageController extends BaseController {
 
   downloadImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { filePath, format } = req.query;
+      const { format } = req.query;
       const result = await this.imageService.getProcessedImage(
-        filePath as string,
         format as string
       );
       // console.log(result);
