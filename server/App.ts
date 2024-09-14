@@ -18,7 +18,6 @@ class App {
 
     this.initializeMiddlewares();
     this.initializeRoutes();
-    this.initializeErrorHandling();
   }
 
   private initializeMiddlewares(): void {
@@ -34,10 +33,6 @@ class App {
     this.app.get("/health-check", (req: Request, res: Response) => {
       return res.send("I am alive!");
     });
-  }
-
-  private initializeErrorHandling(): void {
-    this.app.use(errorHandler);
   }
 
   public listen(): void {
