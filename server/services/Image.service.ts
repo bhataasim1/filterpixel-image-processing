@@ -2,6 +2,7 @@ import sharp from "sharp";
 import { operations } from "../types/types";
 
 export class ImageService {
+  private currentImageBuffer: Buffer | null = null;
   constructor() {}
 
   async processImage(
@@ -19,23 +20,25 @@ export class ImageService {
     if (operations.rotate) {
       image.rotate(operations.rotate);
     }
-    if (operations.crop) {
-      image.extract(operations.crop);
-    }
 
-    const previewBuffer = await image
+    this.currentImageBuffer = await image
       .resize(300)
       .jpeg({ quality: 60 })
       .toBuffer();
 
     return {
-      preview: `data:image/jpeg;base64,${previewBuffer.toString("base64")}`,
+      preview: `data:image/jpeg;base64,${this.currentImageBuffer.toString(
+        "base64"
+      )}`,
     };
   }
 
-  async getProcessedImage(filePath: string, format: string): Promise<Buffer> {
+  async getProcessedImage(format: string): Promise<Buffer> {
+    if (!this.currentImageBuffer) {
+      throw new Error("No processed image available");
+    }
     try {
-      const image = sharp(filePath);
+      const image = sharp(this.currentImageBuffer);
       // console.log(image);
       if (format === "png") {
         return image.png().toBuffer();
