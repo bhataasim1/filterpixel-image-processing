@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useImageContext } from "../context/useImageContext";
 import { downloadImage, processImage } from "../services/apiServices";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 const ImageControls: React.FC = () => {
   const { image, setPreview, operations, setOperations } = useImageContext();
@@ -50,17 +52,18 @@ const ImageControls: React.FC = () => {
     <div className="space-y-4">
       {adjustments.map((operation) => (
         <div key={operation}>
-          <label
+          <Label
             htmlFor={operation}
             className="block text-sm font-medium text-gray-700 capitalize"
           >
             {operation}
-          </label>
+          </Label>
           <input
             type="range"
             id={operation}
             name={operation}
             step="0.1"
+            disabled={!image}
             value={
               operations[operation as keyof typeof operations] ||
               (operation === "rotate" ? 0 : 1)
@@ -81,29 +84,22 @@ const ImageControls: React.FC = () => {
         </div>
       ))}
       <div className="mt-4">
-        <label
-          htmlFor="format"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Select Format
-        </label>
+        <Label htmlFor="format">Select Format</Label>
         <select
           id="format"
           name="format"
           value={format}
+          disabled={!image}
           onChange={(e) => setFormat(e.target.value)}
-          className="w-full mt-1 border-gray-300 rounded-md shadow-sm"
+          className="w-full mt-1 p-2 border-gray-500 rounded-md shadow-sm cursor-pointer"
         >
           <option value="jpeg">JPEG</option>
           <option value="png">PNG</option>
         </select>
       </div>
-      <button
-        onClick={handleDownload}
-        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-      >
+      <Button onClick={handleDownload} variant={"outline"} className="w-full" disabled={!image}>
         Download Processed Image
-      </button>
+      </Button>
     </div>
   );
 };
