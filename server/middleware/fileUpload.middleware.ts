@@ -1,19 +1,17 @@
 import { Request } from "express";
 import multer from "multer";
 import { BaseEnvironment } from "../Environment";
-import fs from "fs/promises";
+import fs from "fs";
 
 const env = new BaseEnvironment();
 
 const allowedTypes: string[] = ["image/png", "image/jpg", "image/jpeg"];
 
-async function ensureUploadDir(uploadDir: string) {
-  try {
-    await fs.access(uploadDir);
-  } catch {
-    await fs.mkdir(uploadDir, { recursive: true });
+const ensureUploadDir = (dir: string) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
   }
-}
+};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
