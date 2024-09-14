@@ -17,9 +17,10 @@ export class ImageController extends BaseController {
       if (!file) {
         return this._sendResponse(res, "No file uploaded", 400);
       }
-      const result = await this.imageService.saveImage(file);
-      // console.log(result);
-      this._sendResponse(res, "Image Uploaded Successfully", 200, { result });
+
+      const filePath = file.path;
+      // console.log(filePath);
+      this._sendResponse(res, "Image Uploaded Successfully", 200, { filePath });
     } catch (error) {
       next(error);
     }
