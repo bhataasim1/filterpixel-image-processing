@@ -1,4 +1,5 @@
 import { ImageService } from "../services/Image.service";
+import { ProcessImageInputType } from "../types/types";
 import { BaseController } from "./_Base.controller";
 import { NextFunction, Request, Response } from "express";
 
@@ -26,7 +27,7 @@ export class ImageController extends BaseController {
 
   processImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { filePath, operations } = req.body;
+      const { filePath, operations }: ProcessImageInputType = req.body;
       const result = await this.imageService.processImage(filePath, operations);
       // console.log(result);
       return this._sendResponse(res, "Image Processed Successfully", 200, {
