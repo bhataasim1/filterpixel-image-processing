@@ -3,6 +3,7 @@ import { operations } from "../types/types";
 
 export class ImageService {
   private currentImageBuffer: Buffer | null = null;
+  private highQualityImageBuffer: Buffer | null = null;
   constructor() {}
 
   async processImage(
@@ -23,8 +24,10 @@ export class ImageService {
 
     this.currentImageBuffer = await image
       .resize(300)
-      .jpeg({ quality: 60 })
+      .jpeg({ quality: 10 })
       .toBuffer();
+
+    this.highQualityImageBuffer = await image.jpeg({ quality: 100 }).toBuffer();
 
     return {
       preview: `data:image/jpeg;base64,${this.currentImageBuffer.toString(
@@ -34,16 +37,16 @@ export class ImageService {
   }
 
   async getProcessedImage(format: string): Promise<Buffer> {
-    if (!this.currentImageBuffer) {
+    if (!this.highQualityImageBuffer) {
       throw new Error("No processed image available");
     }
     try {
-      const image = sharp(this.currentImageBuffer);
+      const image = sharp(this.highQualityImageBuffer);
       // console.log(image);
       if (format === "png") {
         return image.png().toBuffer();
       } else {
-        return image.jpeg().toBuffer();
+        return image.jpeg({ quality: 100 }).toBuffer();
       }
     } catch (error) {
       throw new Error("Error in downloading image");
