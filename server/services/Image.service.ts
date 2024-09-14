@@ -24,7 +24,7 @@ export class ImageService {
 
     this.currentImageBuffer = await image
       .resize(300)
-      .jpeg({ quality: 10 })
+      .jpeg({ quality: 40 })
       .toBuffer();
 
     this.highQualityImageBuffer = await image.jpeg({ quality: 100 }).toBuffer();
