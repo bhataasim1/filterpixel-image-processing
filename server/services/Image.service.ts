@@ -1,29 +1,8 @@
 import sharp from "sharp";
-import path from "path";
-import fs from "fs/promises";
 import { operations } from "../types/types";
 
 export class ImageService {
-  private readonly UPLOAD_DIR = path.join(__dirname, "..", "uploads");
-
-  constructor() {
-    this.ensureUploadDir();
-  }
-
-  private async ensureUploadDir() {
-    try {
-      await fs.access(this.UPLOAD_DIR);
-    } catch {
-      await fs.mkdir(this.UPLOAD_DIR, { recursive: true });
-    }
-  }
-
-  async saveImage(file: Express.Multer.File): Promise<{ filePath: string }> {
-    const fileName = `${Date.now()}-${file.originalname}`;
-    const filePath = path.join(this.UPLOAD_DIR, fileName);
-    await fs.writeFile(filePath, file.buffer);
-    return { filePath };
-  }
+  constructor() {}
 
   async processImage(
     filePath: string,
