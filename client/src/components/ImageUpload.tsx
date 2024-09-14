@@ -1,6 +1,7 @@
 import React from "react";
 import { useImageContext } from "../context/useImageContext";
 import { uploadImage } from "../services/apiServices";
+import { toast } from "react-hot-toast";
 
 const ImageUpload: React.FC = () => {
   const { setImage, setPreview } = useImageContext();
@@ -14,6 +15,7 @@ const ImageUpload: React.FC = () => {
       if (result.filePath) {
         setImage(result.filePath);
         setPreview(`http://localhost:3000/${result.filePath}`);
+        toast.success("Image uploaded successfully!");
       }
     }
   };
