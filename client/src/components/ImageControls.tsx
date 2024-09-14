@@ -38,9 +38,7 @@ const ImageControls: React.FC = () => {
         const link = document.createElement("a");
         link.href = url;
         link.download = `processed_image.${format}`;
-        document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
         URL.revokeObjectURL(url);
       } catch (error) {
         console.error("Error downloading image:", error);
