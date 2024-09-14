@@ -5,6 +5,7 @@ import { sendApiResponseMiddleware } from "./middleware/apiResponse.middleware";
 import { BaseEnvironment } from "./Environment";
 import errorHandler from "./middleware/errorHandler.middleware";
 import imageRouter from "./routes/image.routes";
+import path from "path";
 
 dotenv.config();
 
@@ -18,6 +19,9 @@ class App {
 
     this.initializeMiddlewares();
     this.initializeRoutes();
+
+    //temporarily serve uploaded images
+    this.app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   }
 
   private initializeMiddlewares(): void {
